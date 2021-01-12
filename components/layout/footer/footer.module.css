@@ -1,0 +1,39 @@
+.footer{
+    background-color: #92AEB9;
+    padding: 0 100px ;
+    display: grid;
+    grid-template-columns: auto auto ;
+    border: 1px solid transparent;
+    /* width: 100%; */
+    /* margin-left: 100px; */
+    /*  */
+}
+.ft_right{
+    /* border: 1px solid black; */
+    /* display: inline-block; */
+    
+               
+}
+.ft_left{
+    margin-left: 50px;
+}
+.end{
+    background-color: #222;
+    color: white;
+    margin: 0;
+    height: 5em;
+    border: 1px solid transparent;
+    /* mari */
+}
+.section{
+    display: inline-block;
+    width: 100%;
+}
+.end h5{
+    /* text-align: center; */
+    margin:30px auto;
+    width: 20%;
+    /* border: 1px solid white; */
+}
+/* *{ */
+/* } */

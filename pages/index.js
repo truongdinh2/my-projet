@@ -1,9 +1,10 @@
 // import Head from 'next/head'
-import Layout from './layout/layout'
+import Layout from '../components/layout'
 import styles from './_index.module.css'
 import Image from 'next/image'
-import FormStatic from './form/form'
-import FormStatic1 from './form/form1'
+import FormStatic1 from '../components/form/nguoihoc/form1'
+import ScrollTo from '../components/scrollToFooter'
+
 export default function Home() {
   return (
     <div >
@@ -56,6 +57,7 @@ export default function Home() {
             </ul>
           </div>
         </div>
+        <ScrollTo/>
         <FormStatic1/>
       </Layout>
     </div>
