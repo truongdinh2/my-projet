@@ -1,0 +1,76 @@
+.title {
+  text-align: center;
+  padding-top: 50px;
+}
+.title h1 {
+  color: white;
+  font-size: 2.5rem;
+}
+.title div {
+  font-size: 2rem;
+  color: #fff;
+  font-weight: 500;
+  border-top: 1px dotted #8bbb11;
+  border-bottom: 1px solid #8bbb11;
+  width: 50%;
+  margin: auto;
+}
+.content {
+  padding-top: 80px;
+  width: 37%;
+  margin: auto;
+  color: wheat;
+  text-align: right;
+}
+.img {
+  margin-top: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main {
+  /* height: 100vh; */
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  margin-bottom: 15%;
+}
+.main * {
+  box-sizing: content-box;
+}
+.main1 {
+  /* display: block; */
+  /* flex-basis: 100%; */
+  /* border: 1px solid black; */
+  /* display: block; */
+  /* margin: 0 40%; */
+  flex-basis: 100%;
+}
+.main1 > div {
+  height: 300px;
+  /* border: 1px solid black; */
+  width: 300px;
+  margin: auto;
+  box-shadow: 5px 2px 10px pink ,2px 1px 7px 2px black;
+}
+.flexitem_main {
+  height: 300px;
+  /* border: 1px solid black; */
+  width: 300px;
+  margin: 10% 0 0 0;
+}
+.flexitem_main h3 {
+  text-align: center;
+  padding: 10px 0;
+}
+.flexitem_main:not(.main1){
+  box-shadow: 5px 2px 10px pink ,2px 1px 7px 2px black;
+}
+.flexitem_main:not(.main1):hover{
+  box-shadow: 2px 2px 10px red ,2px 1px 7px 2px yellow, 2px 3px 15px darkblue;
+
+}
+.main1 > div:hover{
+  box-shadow: 2px 2px 10px red ,2px 1px 7px 2px yellow, 2px 3px 15px darkblue;
+
+}
