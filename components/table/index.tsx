@@ -1,35 +1,36 @@
 import { Button, Popover, Table, Tag } from "antd";
 import { ReactElement, useState } from "react";
 import { dataDetail } from './data'
-import {ColumnsType} from 'antd/es/table'
+import { ColumnsType } from 'antd/es/table'
 
 interface Record {
-    id:number
+    id: number
 }
 const TableData = () => {
-    const [content, setContent] = useState<string|ReactElement>('');
+    const [content, setContent] = useState<string | ReactElement>('');
     // const dataItem = dataDetail.filter
-    const onShowInformation = (_, { id }) => {
-        console.log(id)
+    const onShowInformation = (_, record) => {
+        // console.log(id)
+        const { id } = record;
         setContent(
             () => {
-                const dataItem = dataDetail.filter((item)=> item.id === id ? item : '' )
+                const dataItem = dataDetail.filter((item) => item.id === id ? item : '')
                 return (
                     <div>
                         <p>Số điện thoại: {dataItem[0].sdt}</p>
                         <p>Địa chỉ: {dataItem[0].diachi}</p>
                         <img
-                        src={`${dataItem[0].img}`}
+                            src={`${dataItem[0].img}`}
                             alt="Picture of the author"
                             width={100}
-                            height={100} 
-                            />
+                            height={100}
+                        />
                     </div>
                 )
             }
         )
     }
-    const columns:ColumnsType = [
+    const columns: ColumnsType<object> = [
         {
             title: 'Họ và Tên',
             dataIndex: 'name',
@@ -38,7 +39,7 @@ const TableData = () => {
             render: (text, record) =>
                 <Popover placement="right" content={content} title="Title" trigger="click">
                     <a onClick={() => onShowInformation(text, record)}>{text}</a>
-                </Popover>
+                </Popover>,
         },
         {
             title: 'Lớp',
@@ -102,7 +103,7 @@ const TableData = () => {
             align: 'center',
             dataIndex: 'requierd',
             key: 'requierd',
-            fixed:'right'
+            fixed: 'right'
         },
     ];
     const data = [
@@ -130,7 +131,7 @@ const TableData = () => {
             status: '',
             more: '',
             requierd: '',
-            id:2,
+            id: 2,
         },
         {
             key: '3',
@@ -143,7 +144,7 @@ const TableData = () => {
             status: '',
             more: '',
             requierd: '',
-            id:3,
+            id: 3,
         },
     ];
     return (
