@@ -1,0 +1,7 @@
+.table tr th{
+    padding: 10px !important;
+}
+.table tr td {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}

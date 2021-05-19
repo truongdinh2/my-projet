@@ -18,7 +18,7 @@ export default function Home() {
             <p className={styles.p1}>Chúng tôi ở đây để giúp các bạn việc tìm người học, người dạy . Cam kết <strong>uy tín</strong>, <strong>chất lượng</strong> phục vụ , <strong>chi phí</strong> <span> tốt nhất.</span></p>
           </div>
           <div className={styles.img}>
-            <Image src="/hoasen.png" alt="hoasen" width='200' height='200' />
+              <Image src="/hoasen.png" alt="hoasen" width='200' height='200' />
           </div>
         </div>
         <div className={styles.main}>
@@ -57,8 +57,8 @@ export default function Home() {
             </ul>
           </div>
         </div>
-        <ScrollTo/>
-        <FormStatic1/>
+        <ScrollTo />
+        <FormStatic1 />
       </Layout>
     </div>
   )

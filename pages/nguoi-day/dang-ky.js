@@ -1,9 +1,11 @@
 import React from 'react'
-import Link from 'next/link'
+import Link from 'next/link';
+import FormStatic1 from '../../components/form/nguoihoc/form1'
+import Layout from '../../components/layout/index'
 export default function SignUp() {
     return (
-        <div>
-            <Link href="danh-sach-lop-hoc"> Danh sách người học</Link>
-        </div>
+        <Layout>
+            <FormStatic1/>
+        </Layout>
     )
 }

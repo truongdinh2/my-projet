@@ -9,7 +9,7 @@ export default function Layout({ children, title = "tclearning" }) {
         <div>
             <Head>
                 <title>{title}</title>
-                <link rel="icon" href="/logo.png" />
+                    <link rel="icon" href="/logo.png" />
             </Head>
             <div className="hitder">
                 <Header />

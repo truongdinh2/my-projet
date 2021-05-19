@@ -1,72 +1,176 @@
-import { Button, Popover, Table, Tag } from "antd";
+import { SearchOutlined } from '@ant-design/icons';
+import { Button, Input, Modal, Space, Table, Tag, Tooltip, Row, Col, notification } from "antd";
+import { ColumnsType } from 'antd/es/table';
+import Checkbox from "antd/lib/checkbox/Checkbox";
 import { ReactElement, useState } from "react";
-import { dataDetail } from './data'
-import { ColumnsType } from 'antd/es/table'
+import Highlighter from 'react-highlight-words';
+import { dataDetail } from './data';
+import ModalContact from './modal';
+import styles from './table.module.css';
 
-interface Record {
-    id: number
+interface CheckSaved {
+    id: Number,
+    status: Boolean,
 }
 const TableData = () => {
     const [content, setContent] = useState<string | ReactElement>('');
-    // const dataItem = dataDetail.filter
+    const [hasCheckSave, setHasCheckSave] = useState<CheckSaved[]>([]);
+    const [searchText, setSearchText] = useState('')
+    const [searchedColumn, setSearchedColumn] = useState('')
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isContact, setIsContact] = useState(false);
+    const [dataItem, setDataItem] = useState([]);
     const onShowInformation = (_, record) => {
-        // console.log(id)
         const { id } = record;
-        setContent(
-            () => {
-                const dataItem = dataDetail.filter((item) => item.id === id ? item : '')
-                return (
-                    <div>
-                        <p>Số điện thoại: {dataItem[0].sdt}</p>
-                        <p>Địa chỉ: {dataItem[0].diachi}</p>
-                        <img
-                            src={`${dataItem[0].img}`}
-                            alt="Picture of the author"
-                            width={100}
-                            height={100}
-                        />
-                    </div>
-                )
-            }
-        )
+        setIsModalVisible(true)
+        const data = dataDetail.filter((item) => item.id === id ? item : '')
+        setDataItem(data)
     }
-    const columns: ColumnsType<object> = [
+    const onCheckSave = (record) => {
+        const { id } = record;
+        const obj = hasCheckSave.filter((item) => item.id === id ? item : '')
+        const arr = hasCheckSave.filter((item) => item.id !== id ? item : '')
+        setHasCheckSave([
+            ...arr,
+            { id, status: !obj[0]?.status }
+        ])
+    }
+    const getColumnSearchProps = dataIndex => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+            <div style={{ padding: 8 }}>
+                <Input
+                    // ref={node => {
+                    //     const searchInput = node;
+                    // }}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{ marginBottom: 8, display: 'block' }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{ width: 90 }}
+                    >
+                        Search
+                    </Button>
+                    <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+                        Reset
+                    </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
+        onFilter: (value, record) =>
+            record[dataIndex]
+                ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
+                : '',
+        // +-: visible => {
+        //     if (visible) {
+        //         setTimeout(() => this.searchInput.select(), 100);
+        //     }
+        // },
+        render: text =>
+            searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ''}
+                />
+            ) : (
+                text
+            ),
+    });
+    const handleOk = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+        setIsContact(false)
+    };
+    const columns: ColumnsType<DataTable> = [
+        {
+            title: () =>
+                <Tooltip placement="rightTop" title="Tổng hợp những lớp bạn muốn dạy">
+                    <div>Đánh dấu</div>
+                </Tooltip>,
+            align: 'center',
+            dataIndex: 'status',
+            key: 'status',
+            render: (_, record) => {
+                return (
+                    <Checkbox onChange={() => onCheckSave(record)}></Checkbox>
+                )
+            },
+            fixed: "left",
+            filters: [
+                {
+                    text: 'Những cái đã chọn',
+                    value: true,
+                }
+            ],
+            onFilter: (value, record) => {
+                const { id } = record;
+                const filterDataId = hasCheckSave.filter(data => data.status === value ? data.id : '');
+                console.log(filterDataId);
+                let recordRender;
+                filterDataId.forEach(dataId => dataId.id === id ? recordRender = true : '');
+                return recordRender;
+            },
+
+        },
         {
             title: 'Họ và Tên',
             dataIndex: 'name',
             key: 'name',
             align: 'center',
             render: (text, record) =>
-                <Popover placement="right" content={content} title="Title" trigger="click">
-                    <a onClick={() => onShowInformation(text, record)}>{text}</a>
-                </Popover>,
+                <a onClick={() => onShowInformation(text, record)}>{text}</a>,
+            width: '10%',
         },
         {
             title: 'Lớp',
             dataIndex: 'age',
             align: 'center',
+            width: '5%',
             key: 'age',
+            ...getColumnSearchProps('age'),
         },
         {
             title: 'Địa chỉ',
             dataIndex: 'address',
             align: 'center',
+            width: '10%',
             key: 'address',
         },
         {
             title: 'Môn',
             key: 'subjects',
             align: 'center',
+            width: '8%',
             dataIndex: 'subjects',
+            ...getColumnSearchProps('subjects')
+
+        },
+        {
+            title: 'Thời gian',
+            align: 'center',
+            dataIndex: 'time',
+            key: 'time',
+            width: '18%',
+            ...getColumnSearchProps('time'),
             render: tags => (
                 <>
                     {tags.map(tag => {
                         let color = tag.length > 5 ? 'geekblue' : 'green';
-                        if (tag === 'loser') {
-                            color = 'volcano';
-                        }
                         return (
-                            <Tag color={color} key={tag}>
+                            <Tag style={{ marginTop: '2px' }} color={color} key={tag}>
                                 {tag.toUpperCase()}
                             </Tag>
                         );
@@ -75,81 +179,132 @@ const TableData = () => {
             ),
         },
         {
-            title: 'Thời gian',
-            align: 'center',
-            dataIndex: 'time',
-            key: 'time',
-        },
-        {
             title: 'Lương',
             align: 'center',
             dataIndex: 'salary',
+            width: '7%',
             key: 'salary',
         },
         {
             title: 'Ngoài ra',
             align: 'center',
             dataIndex: 'more',
+            width: '25%',
             key: 'more',
-        },
-        {
-            title: 'Trạng thái',
-            align: 'center',
-            dataIndex: 'status',
-            key: 'status',
         },
         {
             title: '(*) Yêu cầu',
             align: 'center',
             dataIndex: 'requierd',
             key: 'requierd',
+            width: '10%',
             fixed: 'right'
         },
     ];
     const data = [
         {
+            status: false,
             key: '1',
             name: 'John Brown',
             age: 32,
             address: 'New York No. 1 Lake Park',
-            subjects: ['toán'],
-            time: '',
+            subjects: 'toán',
+            time: ['7h-9h', 'th2,th3,th5'],
             salary: '130k/1b',
-            status: '10 ngày trước',
             more: 'Cần gia sư có kỹ năng giảng dạy, em đang từ điểm 6 muốn lên 7,8',
             requierd: 'gia sư Nữ',
             id: 1
         },
         {
+            status: false,
             key: '2',
             name: 'truong dinh nguyen',
             age: 32,
             address: 'New York No. 1 Lake Park',
-            subjects: ['nice', 'developer'],
-            time: '',
+            subjects: 'toán',
+            time: ['7h-9h', 'th2,th3,th5'],
             salary: '',
-            status: '',
             more: '',
             requierd: '',
             id: 2,
         },
         {
+            status: false,
             key: '3',
             name: 'John Brown',
             age: 32,
             address: 'New York No. 1 Lake Park',
-            subjects: ['nice', 'developer'],
-            time: '',
+            subjects: 'toán',
+            time: ['7h-9h', 'th2,th3,th5'],
             salary: '',
-            status: '',
             more: '',
             requierd: '',
             id: 3,
         },
     ];
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0])
+        setSearchedColumn(dataIndex)
+    };
+
+    const handleReset = clearFilters => {
+        clearFilters();
+        setSearchText('')
+
+    };
+    const onContact = () => {
+        setIsContact(true)
+    }
+    const footerModal = () => {
+        return (
+            <Row justify="space-between">
+                <Col>
+                    * Bạn đã chắc chắn muốn liên hệ ?
+                </Col>
+                <Col>
+                    <Row>
+                        <Button onClick={onContact}>Có</Button>
+                        <Button type="primary" onClick={handleCancel}>Không</Button>
+                    </Row>
+                </Col>
+            </Row>
+        )
+    }
+    const openNotificationWithIcon = type => {
+        notification[type]({
+            message: 'Notification Title',
+            description:
+                'Chúc mừng bạn đã thành công, xin cảm ơn!',
+        });
+    };
+    const onFail = () => {
+        // console.log('onFail');
+        handleCancel()
+    }
+    const onSuccess = () => {
+        // console.log('object');
+        handleCancel()
+        openNotificationWithIcon('success')
+    }
     return (
         <>
-            <Table columns={columns} dataSource={data} />
+            <Modal title="Liên hệ" visible={isModalVisible}
+                onOk={handleOk}
+                onCancel={handleCancel}
+                maskClosable={false}
+                footer={footerModal()}
+            >
+                <ModalContact onSuccess={onSuccess} onFail={onFail} dataItem={dataItem} isContact={isContact} />
+            </Modal>
+            <Table
+                bordered
+                className={styles.table}
+                columns={columns}
+                dataSource={data}
+                scroll={{ x: 1100 }}
+                pagination={false}
+            />
         </>
     )
 }
