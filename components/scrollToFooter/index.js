@@ -41,9 +41,7 @@ export default function Scroll() {
                     </Col>
                 </Row>
             </Modal>
-            <Row gutter={[40,30]} justify="center">
-                <Col>Chúc bạn gặp nhiều thành công!!</Col>
-            </Row>
+            
         </div>
     )
         ;

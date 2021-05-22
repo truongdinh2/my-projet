@@ -9,9 +9,11 @@ import {
 } from 'antd';
 import Checkbox from 'antd/lib/checkbox/Checkbox';
 import TextArea from 'antd/lib/input/TextArea';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styles from '../_form.module.css';
-import NoteForm from '../../note/noteInForm';
+import NoteForm from '../../note/nguoiday/noteInForm';
+import User from './user';
+import { Authentic } from '../../useContext';
 
 
 const relation = ['bố', 'mẹ', 'anh ruột', 'chị ruột', 'bạn bè', 'ông bà'];
@@ -88,62 +90,7 @@ const Relation = () => {
         </div>
     )
 }
-const User = () => {
-    return (
-        <div style={{ marginTop: '10px' }}>
-            <Form.Item
-                hasFeedback
-                label="Họ và tên" name="name"
-                rules={[{ required: true }, {
-                }]} >
-                <Input />
-            </Form.Item>
 
-            <Form.Item
-                name="lop-year"
-                label="Lớp - năm sinh"
-                hasFeedback
-                rules={[{ required: true }]}
-            >
-                <Input placeholder="12 - 2004" />
-            </Form.Item>
-            <Form.Item
-                hasFeedback
-                label="Môn học" name="subject"
-                rules={[{ required: true }, {
-                }]} >
-                <Input placeholder="toán" />
-            </Form.Item>
-            <Form.Item
-                hasFeedback
-                label="Chỗ ở hiện tại" name="address" rules={[{ required: true }]}>
-                <Input placeholder="tỉnh-huyện(quận)-xã(phường)-thôn" />
-            </Form.Item>
-            <Form.Item
-                name="phone"
-                label="Phone Number"
-                hasFeedback
-                rules={[{ required: true, message: 'Please input your phone number!' }]}
-            >
-                <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
-            </Form.Item>
-            <Form.Item
-                name="password"
-                hasFeedback
-                label="Password"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please input your password!',
-                    },
-                ]}
-            >
-                <Input.Password />
-            </Form.Item>
-
-        </div>
-    )
-}
 const FormDemand = () =>
     <div style={{ marginTop: '10px' }}>
         <Form.Item
@@ -203,7 +150,7 @@ const FormDemand = () =>
     </div>
 //function
 
-const FormStatic1 = () => {
+const FormLearner = () => {
     const [isRelation, setIsRelation] = useState(false)
     const [form] = Form.useForm();
     const [isImg, setIsImg] = useState(false);
@@ -231,9 +178,10 @@ const FormStatic1 = () => {
             </Tooltip>
         )
     }
+    const {auth,setAuth} = useContext(Authentic)
     const onFinish = (params) => {
         // setWho(params.who)
-        console.log(params);
+        setAuth('nguoihoc')
     }
     const bank = (
         <Form.Item name="typeBank" noStyle>
@@ -249,11 +197,11 @@ const FormStatic1 = () => {
 
     return (
         <div className={styles.page}>
-            <div className={styles.title}>
-                Đăng kí
-            </div>
+            <h2 className={styles.title}>
+                Đăng ký
+            </h2>
             <Row>
-                <Row style={{ width: '50%' }} justify="center">
+                <Row style={{ width: '60%' }} justify="center">
                     <Col span={20}>
                         <Row justify="center" gutter={[14, 14]} className={styles.btn_ng_hoc_ng_than}>
                             <Col offset={5}>
@@ -289,7 +237,7 @@ const FormStatic1 = () => {
                                 <Col offset={5}>
                                     <Tooltip title="thêm ảnh để xác minh bạn">
                                         <Button htmlType="button" onClick={() => setIsImg(!isImg)}>
-                                            Post image
+                                            Đăng ảnh
                                         </Button>
                                     </Tooltip>
                                 </Col>
@@ -332,7 +280,7 @@ const FormStatic1 = () => {
                             </Row>
 
                             {(isRelation && role === 'nguoi hoc') && <Relation />}
-                            {(isRelation && role === 'nguoi than') && <User />}
+                            {(isRelation && role === 'nguoi than' && auth==="nguoihoc") && <User />}
                             <Form.Item
                                 name="agreement"
                                 valuePropName="checked"
@@ -364,4 +312,4 @@ const FormStatic1 = () => {
         </div>
     );
 };
-export default FormStatic1;
+export default FormLearner;

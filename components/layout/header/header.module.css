@@ -1,34 +1,194 @@
-.flexbox_bar{
-    background-color: #138585;
-    color: white;
-    display: flex;
-    position: fixed;
-    /* border: 3px solid rgb(99, 10, 10); */
-    top:0px;
-    width: 100%;
-    z-index: 10;
-    /* margin-top: 10px; */
-    
+@import "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap";
+.img_logo {
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  border-radius: 50%;
+  margin-top: 2px !important;
 }
-/* .hitder{
-    z-index: 10;
-    position: relative;
+.nav {
+  margin-bottom: inherit;
+}
+.site_header a {
+  text-decoration: none;
+  color: #222;
+  cursor: pointer;
+}
+.not_backgr a:hover{
+  color: pink;
+}
+.not_backgr a {
+  color: white ;
+}
+.site_header {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.site_header {
+  font-family: roboto, sans-serif;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100% !important;
+  vertical-align: baseline;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: calc(100%);
+  z-index: 10;
+  transition: 0.6s;
+}
+.not_backgr {
+  background-color: transparent;
+  font-weight: 600;
+}
+._backgr {
+  background-color: #def7ff;
+  margin-bottom: 100px;
+}
+.nav__wrapper {
+  list-style: none;
+  margin-bottom: inherit;
+}
+.nav__wrapper a {
+  font-size: 17px;
+}
+.site_header__end {
+  font-size: 17px;
+}
+.wrapper {
+  max-width: 1140px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+.sr_only {
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+.button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  color: #fff;
+  background-color: #2fa0f6;
+  min-width: 120px;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  text-align: center;
+}
+.button svg {
+  display: inline-block;
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+}
+.button span {
+  display: none;
+}
+@media (min-width: 600px) {
+  .button span {
+    display: initial;
+  }
+}
+.button__icon {
+  min-width: initial;
+  padding: 0.5rem;
+}
+/* .brand {
+  font-weight: 700;
+  font-size: 20px;
 } */
-.flexitem_bar{
-    margin: 10px 20px;
-    align-self: center;
-    cursor: pointer;
+
+.site_header__wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
-.bar_item1{
-    justify-content: center;
-    align-items: center;
-    flex-basis: 60%;
+@media (min-width: 660px) {
+  .site_header__wrapper {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .site_header__wrapper > * {
+    flex: 1;
+  }
+}
+@media (min-width: 660px) {
+  .site_header__start {
+    text-align: center;
+  }
+}
+@media (min-width: 660px) {
+  .site_header__middle {
+    order: -1;
+  }
+}
+@media (min-width: 660px) {
+  .site_header__end {
     display: flex;
-    /* border: 1px solid black; */
+    justify-content: flex-end;
+  }
 }
-.bar_item1 img{
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    margin-left: 20%;
+@media (max-width: 659px) {
+  .site_header__end {
+    padding-right: 4rem;
+  }
+}
+@media (min-width: 660px) {
+  .nav__wrapper {
+    display: flex;
+  }
+}
+@media (max-width: 659px) {
+  .nav__wrapper {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    z-index: -1;
+    background-color: #d9f0f7;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  }
+  .nav__wrapper.active {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.nav__item:not(:last-child) {
+  margin-right: 1.5rem;
+}
+.nav__item a {
+  display: block;
+  padding: 0.5rem 0.3rem;
+}
+@media (min-width: 660px) {
+  .nav__item a {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+.nav__toggle {
+  display: none;
+}
+@media (max-width: 659px) {
+  .nav__toggle {
+    display: block;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+  }
 }

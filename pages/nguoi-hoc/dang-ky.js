@@ -1,5 +1,5 @@
 import React from 'react';
-import FormTeacher from '../../components/form/nguoiday';
+import FormLearner from '../../components/form/nguoihoc';
 import Layout from '../../components/layout/index';
 import { ClassNameCtx } from '../../components/useContext';
 export default function SignUp() {
@@ -7,7 +7,7 @@ export default function SignUp() {
         <ClassNameCtx.Provider value='hi'>
             <Layout>
                 <div style={{marginTop:'7%'}}>
-                <FormTeacher />
+                <FormLearner />
                 </div>
             </Layout>
         </ClassNameCtx.Provider>

@@ -1,23 +1,120 @@
-import Link from 'next/link'
-import React from 'react'
-import styles from './header.module.css'
+import { Button, Dropdown, Menu } from 'antd';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import styles from './header.module.css';
 
-export default function Header() {
+const { SubMenu } = Menu
+export default function Header(props) {
+    const [classHeader, setClassHeader] = useState('not_backgr');
+    const router = useRouter();
+    const handleScroll = () => {
+        if (window.scrollY > 90) {
+            setClassHeader('_backgr')
+        }
+        else {
+            setClassHeader('not_backgr')
+        }
+    }
+    useEffect(() => {
+        if (router.asPath === '/') {
+            window.addEventListener('scroll', handleScroll);
+        } else {
+            setClassHeader('_backgr')
+        }
+        return () =>
+            window.removeEventListener("scroll", handleScroll);
+    }, [])
+    useEffect(() => {
+        props.configNav(classHeader)
+    }, [])
+    const menu = (
+        <Menu triggerSubMenuAction="click" >
+            <SubMenu key="sub3" title="Đăng nhập">
+                <Menu.Item key="7">
+                    <Link href="/nguoi-hoc/dang-nhap">
+                        <a href="">
+                            Người học
+                        </a>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="8">
+                    <Link href="/nguoi-day/dang-nhap">
+                        <a href="">
+                            Người dạy
+                        </a>
+                    </Link>
+                </Menu.Item>
+            </SubMenu>
+            <SubMenu key="sub4" title="Đăng ký">
+                <Menu.Item key="1">
+                    <Link href="/nguoi-hoc/dang-ky">
+                        <a href="">
+                            Người học
+                        </a>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="2">
+                    <Link href="/nguoi-day/dang-ky">
+                        <a href="">
+                            Người dạy
+                        </a>
+                    </Link>
+                </Menu.Item>
+            </SubMenu>
+        </Menu>
+    );
     return (
-        <div>
-            <div className={styles.flexbox_bar}>
-                <div className={`${styles.flexitem_bar} ${styles.bar_item0}`}><span>icon</span>sign up
-                <span ><span>icon</span>Login</span></div>
-                <div className={`${styles.flexitem_bar}  ${styles.bar_item1}`}>
+        <header className={`${styles[classHeader]} ${styles.site_header}`}>
+            <div className={`${styles.wrapper} ${styles.site_header__wrapper}`}>
+                <div className={styles.site_header__start}>
                     <Link href="/">
-                    <img src="/logo.png" alt="logo" />
+                        <Image
+                            src="/logo.png"
+                            alt="logo"
+                            className={styles.img_logo}
+                            width="50"
+                            height="50"
+                        />
                     </Link>
                 </div>
-                <div className={`${styles.flexitem_bar} ${styles.bar_item3}`}>link1</div>
-                <div className={`${styles.flexitem_bar} ${styles.bar_item4}`}>link2</div>
-                <div className={`${styles.flexitem_bar} ${styles.bar_item5}`}>link3</div>
-                <div className={`${styles.flexitem_bar} ${styles.bar_item6}`}>link4</div>
+                <div className={styles.site_header__middle}>
+                    <nav className={styles.nav}>
+                        <button type="button" className={styles.nav__toggle}>
+                            menu
+                        </button>
+                        <ul className={styles.nav__wrapper}>
+                            <li className={styles.nav__item}>
+                                <Link href="/">
+                                    <a >Trang chủ</a>
+                                </Link>
+                            </li>
+                            <li className={styles.nav__item}>
+                                <Link href="/ho-tro">
+                                    <a href="#">Hỗ trợ</a>
+                                </Link>
+                            </li>
+                            <li className={styles.nav__item}>
+
+                                <Link href="/thong-tin">
+                                    <a href="#">Thông tin</a>
+                                </Link>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div className={styles.site_header__end}>
+                    <Dropdown overlay={menu}
+                        placement="bottomCenter"
+                        trigger="click"
+                    // icon={<UserOutlined />}
+                    >
+                        <Button >Tài khoản</Button>
+                    </Dropdown>
+
+                </div>
             </div>
-        </div>
+        </header>
     )
 }

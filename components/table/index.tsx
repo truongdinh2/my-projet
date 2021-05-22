@@ -1,13 +1,13 @@
-import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined, SmileOutlined } from '@ant-design/icons';
 import { Button, Input, Modal, Space, Table, Tag, Tooltip, Row, Col, notification } from "antd";
 import { ColumnsType } from 'antd/es/table';
 import Checkbox from "antd/lib/checkbox/Checkbox";
+import { useRouter } from 'next/router';
 import { ReactElement, useState } from "react";
 import Highlighter from 'react-highlight-words';
 import { dataDetail } from './data';
 import ModalContact from './modal';
 import styles from './table.module.css';
-
 interface CheckSaved {
     id: Number,
     status: Boolean,
@@ -20,6 +20,9 @@ const TableData = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isContact, setIsContact] = useState(false);
     const [dataItem, setDataItem] = useState([]);
+    const router = useRouter();
+    const [isFeeDone, setIsFeeDone] = useState(false)
+
     const onShowInformation = (_, record) => {
         const { id } = record;
         setIsModalVisible(true)
@@ -92,13 +95,15 @@ const TableData = () => {
 
     const handleCancel = () => {
         setIsModalVisible(false);
-        setIsContact(false)
+        setIsContact(false);
+        setIsFeeDone(false)
+
     };
     const columns: ColumnsType<DataTable> = [
         {
             title: () =>
                 <Tooltip placement="rightTop" title="Tổng hợp những lớp bạn muốn dạy">
-                    <div>Đánh dấu</div>
+                    <div>Ô nhớ</div>
                 </Tooltip>,
             align: 'center',
             dataIndex: 'status',
@@ -118,7 +123,6 @@ const TableData = () => {
             onFilter: (value, record) => {
                 const { id } = record;
                 const filterDataId = hasCheckSave.filter(data => data.status === value ? data.id : '');
-                console.log(filterDataId);
                 let recordRender;
                 filterDataId.forEach(dataId => dataId.id === id ? recordRender = true : '');
                 return recordRender;
@@ -148,6 +152,7 @@ const TableData = () => {
             align: 'center',
             width: '10%',
             key: 'address',
+            ...getColumnSearchProps('address'),
         },
         {
             title: 'Môn',
@@ -273,30 +278,61 @@ const TableData = () => {
     }
     const openNotificationWithIcon = type => {
         notification[type]({
-            message: 'Notification Title',
+            message: 'Thông báo',
             description:
                 'Chúc mừng bạn đã thành công, xin cảm ơn!',
         });
     };
+    const openNotification = () => {
+        notification.open({
+            message: 'Thông báo',
+            description:
+                'Hãy chọn lại lớp khác nào! Đừng lo lắng. Cảm ơn bạn.',
+            icon: <SmileOutlined style={{ color: '#108ee9' }} />,
+        });
+    };
     const onFail = () => {
-        // console.log('onFail');
         handleCancel()
+        openNotification()
     }
     const onSuccess = () => {
-        // console.log('object');
         handleCancel()
         openNotificationWithIcon('success')
+        router.push('/nguoi-day/ho-tro')
     }
+    const FeeDone = () => {
+        setIsFeeDone(true)
+    }
+    console.log(isFeeDone);
     return (
         <>
             <Modal title="Liên hệ" visible={isModalVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}
                 maskClosable={false}
-                footer={footerModal()}
+                footer={isFeeDone && footerModal()}
             >
-                <ModalContact onSuccess={onSuccess} onFail={onFail} dataItem={dataItem} isContact={isContact} />
+                <ModalContact isFee={isFeeDone}
+                    onSuccess={onSuccess}
+                    onFail={onFail}
+                    dataItem={dataItem}
+                    FeeDone={FeeDone}
+                    isContact={isContact} />
             </Modal>
+            <h3 style={{ marginBottom: '1%' }}>Danh sách các lớp học</h3>
+            <Row justify="end"
+                className={styles.note}
+            >
+                <Col span={8}>
+                    <span style={{ color: 'red', fontSize: '13px' }}>* Chú thích</span>
+                    <span style={{ fontStyle: "italic", fontSize: '12px' }}
+                    > Họ và Tên: là cột để bạn chọn lớp.</span>
+                    <br />
+                    <span style={{ fontStyle: "italic", fontSize: '12px', marginLeft: '65px' }}>
+                        Nếu có thắc mắc liên hệ ngay với chúng tôi.
+                    </span>
+                </Col>
+            </Row>
             <Table
                 bordered
                 className={styles.table}

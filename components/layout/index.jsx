@@ -1,22 +1,37 @@
 import Head from 'next/head'
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Footer from './footer'
 import Header from './header/header'
-
+import { useRouter } from 'next/router'
+import {Row,Col} from 'antd'
 
 export default function Layout({ children, title = "tclearning" }) {
+    const router = useRouter();
+    const [classMain, setClassMain] = useState('main')
+    const handleNav = (param) => {
+        console.log(param);
+    }
+    useEffect(() => {
+        if (router.asPath === "/") {
+            setClassMain('main_home_page')
+        }
+    }, [])
     return (
         <div>
             <Head>
                 <title>{title}</title>
-                    <link rel="icon" href="/logo.png" />
+                <link rel="icon" href="/logo.png" />
             </Head>
             <div className="hitder">
-                <Header />
+                <Header configNav={handleNav} />
             </div>
-            <div className="main">
+            <div className={`${classMain}`}>
                 {children}
             </div>
+            <h5>Cảm ơn bạn đã tin tưởng !</h5>
+            <Row  justify="center" style={{margin:"2% 0"}}>
+                <Col>Chúc bạn gặp nhiều thành công!!</Col>
+            </Row>
             <div className="footer">
                 <Footer />
             </div>
