@@ -24,7 +24,7 @@ a {
   width: 100%;
   margin: 100px 0 70px 0;
 }
-.main_home_page{
+.main_home_page {
   min-height: 100vh;
   width: 100%;
   margin: 0 0 70px 0;
@@ -40,6 +40,18 @@ a {
   background-attachment: fixed;
   background-position: center;
 }
-h1,h2,h3,h4,h5,h6{
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   text-align: center;
+}
+.imgIconup {
+  height: 30px;
+  width: auto;
+  animation-name: img;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
 }

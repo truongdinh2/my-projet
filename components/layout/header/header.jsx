@@ -2,13 +2,16 @@ import { Button, Dropdown, Menu } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { Authentic } from '../../useContext';
 import styles from './header.module.css';
 
 const { SubMenu } = Menu
 export default function Header(props) {
     const [classHeader, setClassHeader] = useState('not_backgr');
     const router = useRouter();
+    const { auth } = useContext(Authentic);
+    const hotro = auth === 'nguoihoc' ? '/ho-tro/nguoi-hoc' : '/ho-tro/nguoi-day'
     const handleScroll = () => {
         if (window.scrollY > 90) {
             setClassHeader('_backgr')
@@ -91,30 +94,30 @@ export default function Header(props) {
                                 </Link>
                             </li>
                             <li className={styles.nav__item}>
-                                <Link href="/ho-tro">
-                                    <a href="#">Hỗ trợ</a>
-                                </Link>
-                            </li>
-                            <li className={styles.nav__item}>
+                                <Link href={hotro}>
+                                <a href="#">Hỗ trợ</a>
+                            </Link>
+                        </li>
+                        <li className={styles.nav__item}>
 
-                                <Link href="/thong-tin">
-                                    <a href="#">Thông tin</a>
-                                </Link>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-                <div className={styles.site_header__end}>
-                    <Dropdown overlay={menu}
-                        placement="bottomCenter"
-                        trigger="click"
-                    // icon={<UserOutlined />}
-                    >
-                        <Button >Tài khoản</Button>
-                    </Dropdown>
-
-                </div>
+                            <Link href="/thong-tin">
+                                <a href="#">Thông tin</a>
+                            </Link>
+                        </li>
+                    </ul>
+                </nav>
             </div>
-        </header>
+            <div className={styles.site_header__end}>
+                <Dropdown overlay={menu}
+                    placement="bottomCenter"
+                    trigger="click"
+                // icon={<UserOutlined />}
+                >
+                    <Button >Tài khoản</Button>
+                </Dropdown>
+
+            </div>
+        </div>
+        </header >
     )
 }

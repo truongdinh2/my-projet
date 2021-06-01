@@ -1,14 +1,14 @@
 // import Head from 'next/head'
-import Image from 'next/image'
+import { Button, Col, Row } from 'antd'
+import { useRouter } from 'next/router'
 import { useContext } from 'react'
 import Layout from '../components/layout'
 import ScrollTo from '../components/scrollToFooter'
 import { Authentic } from '../components/useContext'
-import styles from './_index.module.css';
-import { Row, Col, Button } from 'antd'
-
+import styles from './_index.module.css'
 export default function Home() {
-  const { auth } = useContext(Authentic);
+  const { auth } = useContext(Authentic); 
+  const router = useRouter()
   return (
     <div >
       <Layout>
@@ -19,7 +19,7 @@ export default function Home() {
           </div>
           <div className={styles.content}>
             <p className={styles.p1}>
-              Trang web giúp tìm và tạo lớp bằng hình thức trực tuyến
+              Trang web giúp bạn tìm lớp và tạo lớp bằng hình thức trực tuyến
               <strong> uy tín</strong>, <strong>tinh thần</strong>  phục vụ , chất lượng, và <strong>chi phí</strong>
               <span> tốt nhất.</span></p>
           </div>
@@ -27,8 +27,8 @@ export default function Home() {
             <Col>
               <Button></Button>
               {auth === '' && ''}
-              {auth === 'nguoihoc' && <Button>Đăng ký học</Button>}
-              {auth === 'nguoiday' && <Button> Đăng ký dạy</Button>}
+              {auth === 'nguoihoc' && <Button onClick={()=>router.push('/ho-tro/nguoi-hoc')}>Đăng ký học</Button>}
+              {auth === 'nguoiday' && <Button onClick={()=>router.push('/ho-tro/nguoi-day')}> Đăng ký dạy</Button>}
             </Col>
           </Row>
           <Row justify="center" style={{ marginTop: '10%', color: "#FFF200", fontWeight: 600, fontSize: '16px' }}>

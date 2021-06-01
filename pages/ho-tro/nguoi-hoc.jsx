@@ -1,16 +1,55 @@
 import React from 'react'
+import {
+  Button,
+  Col,
+  Form,
+  Input, Row, Typography
+} from 'antd';
 import Layout from '../../components/layout'
-import { Row, Col } from 'antd'
-import Link from 'next/link'
-export default function PageSupport() {
+import Link from 'next/link';
+export default function Page() {
+  const msg = "Chúng tôi nhận ra thông tin của bạn đủ để tìm người dạy."
   return (
     <Layout>
-      <Row>
+      <Row justify="center">
         <Col span={24}>
-          <h2>Tiện ích hỗ trợ</h2>
+          <h3>
+            Chúng tôi xin cám ơn bạn Trường đã đăng ký!
+          </h3>
         </Col>
+        <Col offset={3} span={12} style={{ marginTop: '35px' }}>
+          <p style={{ fontSize: "15px", fontWeight: 500 }}>Bạn có bất kỳ thắc mắc gì ? Liên hệ với đội ngũ mình nhé!
+            Ở đây có rất nhiều giải pháp để hỗ trợ bạn. Như là:
+            <ul>
+              <li>
+                Thuận tiện theo dõi quá trình học tập để tổng hợp lại và phản hồi của người dạy.
+              </li>
+              <li>
+                Danh tính người dạy sẽ được xác minh rõ ràng.
+              </li>
+              <li>
+                Tích hợp sẵn ứng dụng chấm công. 
+              </li>
+              <li>
+                 Hướng dẫn thêm kỹ năng khi học online, offline tùy ý.
+              </li>
+              <li>
+                Hỗ trợ thanh toán online.
+              </li>
+            </ul>
+          </p>
+          <p>
+            <Link href="/nguoi-hoc/dang-ky">
+              {msg}
+            </Link>
+          </p>
+          <p>
+            Cảm ơn bạn đã trao sự tin tưởng cho chúng tôi!
+          </p>
+        </Col>
+        <Col span={8} ></Col>
       </Row>
-      <Row justify="space-around" style={{ paddingTop: '7%', }}>
+      <Row justify="space-around" style={{ paddingTop: '4%', }}>
         <Col push={1} offset={1} span={6}>
         <div>
             <img src="https://chamcong.timviec365.vn/images/box4_img.png"

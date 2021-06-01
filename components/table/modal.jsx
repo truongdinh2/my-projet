@@ -35,7 +35,7 @@ export default function ModalContact(props) {
                         <li><span ><Link href="/tien-phi"> 4%/buổi </Link></span> thời hạn dưới 3 năm sử dụng.</li>
                     </ul>
                 </span>
-                <span onClick={FeeDone} style={{cursor:'pointer'}}> (sau khi click)</span>
+                <span onClick={FeeDone} style={{cursor:'pointer'}}> <a>ấn đây coi như đã chọn(test)</a></span>
             </div>
         </Col>
     return (

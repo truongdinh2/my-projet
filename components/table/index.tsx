@@ -298,7 +298,7 @@ const TableData = () => {
     const onSuccess = () => {
         handleCancel()
         openNotificationWithIcon('success')
-        router.push('/nguoi-day/ho-tro')
+        router.push('/ho-tro/nguoi-day')
     }
     const FeeDone = () => {
         setIsFeeDone(true)

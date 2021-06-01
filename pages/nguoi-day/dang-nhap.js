@@ -26,7 +26,7 @@ export default function Page() {
     const { Title, Paragraph } = Typography;
     const onFinish = () => {
         setAuth('nguoiday')
-        router.push('/nguoi-day/danh-sach-lop-hoc')
+        router.push('/ho-tro/nguoi-day')
     }
     const {setAuth} = useContext(Authentic)
     return (
